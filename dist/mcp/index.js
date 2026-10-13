@@ -6,6 +6,7 @@
  *
  * Run: node api/mcp/index.ts
  */
+import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { existsPhrase } from "../routes/exists/index.js";
 import { lookupTerm } from "../routes/lookup/index.js";
@@ -14,6 +15,8 @@ import { parseBody } from "../shared/http.js";
 import { readOptions } from "../shared/options.js";
 import { classifyRequest, classifyTextRequest, termsRequest } from "../shared/schema.js";
 const PROTOCOL = "2024-11-05";
+// Release Please bumps package.json. api/ and dist/ both sit two levels below it.
+const VERSION = JSON.parse(readFileSync(new URL("../../package.json", import.meta.url), "utf8")).version;
 const languageProperty = { type: "string", description: "BCP 47 tag of the text, such as pt-BR." };
 const tools = [
     {
@@ -94,7 +97,7 @@ export function respond(directory, message) {
             result: {
                 protocolVersion,
                 capabilities: { tools: {} },
-                serverInfo: { name: "vocabulary", version: "0.1.0" },
+                serverInfo: { name: "vocabulary", version: VERSION },
             },
         };
     }
