@@ -2,7 +2,7 @@
 locale: en
 description: Use these instructions for any task in this repository, including its skills. Do not use them to store a brand glossary or a brand rule.
 metadata:
-  version: "0.1.0"
+  version: "0.2.0"
   parameters:
     "Global":
       "Organização": "jimmyandrade"
