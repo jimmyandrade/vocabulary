@@ -3,7 +3,7 @@ name: definir-vocabulario
 description: Use essa habilidade sempre que for cadastrar ou atualizar um ou mais termos do vocabulário do tom de voz, ou perguntar quais variações de gênero, número ou grafia foram cadastradas, mesmo sem dizer glossário, lote ou estado. NÃO use para escrever, revisar ou aprovar o texto da marca, classificar uma frase, nem inventar um termo que a pessoa não enviou.
 metadata:
   author: jimmyandrade
-  version: "0.20.0"
+  version: "0.21.0"
   related:
     - evoluir-habilidade
     - redigir-com-tom-de-voz
@@ -37,6 +37,8 @@ Canal, público, coleção, vertente, intenção comercial ou situação de uso 
 
 O termo que só cabe num desses contextos fica `situationally_allowed`, e o `when` guarda essa situação. `allowed` e `forbidden` são regra geral da marca. Não use esses estados para um contexto específico. A escrita recusa `when` nesses dois estados.
 
+O termo situacional que pertence a quem fala em primeira pessoa, a um evento ou a um canal também leva `tags`, como `maria-silva`, `festival-de-verao` ou `palco`. O `when` continua com a regra em palavras. As tags deixam a consulta filtrar. Pergunte quem fala, em que evento e em que canal, se o pedido não disser. Antes de criar uma tag, consulte um termo já cadastrado do mesmo contexto e reaproveite a tag dele. Não invente tag. Termo geral não leva tag.
+
 ### Passo 3
 
 Cadastrar o que ainda não está usa `insert`. Corrigir o que já está usa `update`. Gravar novos e corrigir os que já estão usa `upsert`. Se a pessoa pedir para cadastrar e não disser o modo, use `insert`.
@@ -48,7 +50,8 @@ Valide o plano antes de gravar.
 - `category` é uma palavra em inglês, em qualquer idioma, como `punctuation`. Termo, descrição e notas ficam no idioma do vocabulário.
 - `allowed` pede `reason` e `examples`, e não leva alternativa. `description` explica a palavra. `reason` diz por que usamos. Não copie um no outro.
 - `forbidden` pede `substitution`, `rejected` e `alternatives`. A escrita recusa `examples`.
-- `situationally_allowed` pede `when` e `examples`.
+- `situationally_allowed` pede `when` e `examples`. `tags` é opcional e só vale nesse estado. A escrita recusa tag em `allowed` e `forbidden`.
+- Cada tag é ASCII em minúsculas, uma palavra ou palavras com hífen. A mesma tag não repete no termo.
 - Um termo não é o próprio exemplo. A mesma grafia não entra duas vezes.
 - Emoji, combinação e uso simbólico são termo. A combinação junta é um termo. Não é decoração.
 - `state` é a permissão. `description` não repete o estado.
@@ -75,7 +78,7 @@ Se a pessoa perguntar as variações de gênero, número ou grafia de um termo q
 
 ### Passo 6
 
-Grave o plano inteiro numa escrita só, com a escrita de Scripts disponíveis. Com terminal, rode o comando. Sem terminal, chame a ferramenta do servidor `vocabulary`. Termo que não existia fica em minúsculas. A linha que já existia conserva a grafia guardada. Se nenhum termo do plano existia, a resposta começa com a quantidade e segue com a lista do que entrou. Depois sugira plural, singular, feminino, masculino e outra grafia quando a palavra tiver. Não grave a sugestão. Pergunte o estado de cada forma. Pontuação e emoji não ganham essa sugestão. Diga também o que foi atualizado e o que já existia sem alteração. Um exemplo que também vem completo no lote permanece com essa linha. Um exemplo citado e ausente do lote nasce no estado desse vínculo. Uma falha deixa o vocabulário como estava. Não confirme o cadastro sem essa resposta.
+Grave o plano inteiro numa escrita só, com a escrita de Scripts disponíveis. Com terminal, rode o comando. Sem terminal, chame a ferramenta do servidor `vocabulary`. Termo que não existia fica em minúsculas. A linha que já existia conserva a grafia guardada. Se nenhum termo do plano existia, a resposta começa com a quantidade e segue com a lista do que entrou. Depois sugira plural, singular, feminino, masculino e outra grafia quando a palavra tiver. Não grave a sugestão. Pergunte o estado de cada forma. Pontuação e emoji não ganham essa sugestão. Diga também o que foi atualizado e o que já existia sem alteração. Um exemplo que também vem completo no lote permanece com essa linha. Um exemplo citado e ausente do lote nasce no estado desse vínculo, com as tags do termo. Uma falha deixa o vocabulário como estava. Não confirme o cadastro sem essa resposta.
 
 ### Passo 7
 
@@ -131,6 +134,14 @@ Se você gravar como permitido ou proibido um termo que só vale num canal, púb
 2. Leia as fontes da marca que as instruções do projeto nomeiam. Se faltar fonte, peça.
 3. Se o contexto continuar ambíguo, pergunte.
 4. Grave como situacional, com o quando usar. Não grave como regra geral.
+
+### Contexto só no quando usar
+
+Se você gravar o termo de uma pessoa, de um evento ou de um canal só com o `when`, a escrita de outro contexto lê esse termo como se valesse para ela.
+
+1. Mantenha o `when` com a regra em palavras.
+2. Grave `tags` com quem fala, o evento ou o canal.
+3. Reaproveite a tag que já está no vocabulário para o mesmo contexto. Sem ela, pergunte.
 
 ### Emoji como enfeite
 
@@ -251,6 +262,10 @@ Casa e moradias acabaram de entrar. Pesquisei casas e moradia. Nenhuma das duas 
 
 A busca não achou casas. Casa já estava. Disse que casas não existe e sugeri o cadastro. Não gravei.
 
+### Cadastre "meu povo" como fala de Maria Silva no palco.
+
+O estado ficou situacional. O when disse quando Maria fala em primeira pessoa, no palco. As tags ficaram maria-silva e palco, as mesmas de um termo que já estava. Não gravei como permitido geral.
+
 ### Cadastre o termo novo como proibido. Ainda não está.
 
 Perguntei se ela queria termos relacionados. Ela pediu um. Ele entrou em alternatives, permitido. Não inventei outro.
@@ -284,6 +299,7 @@ Casa ficou permitida. Casas ganhou a própria linha, proibida. Moradias ganhou a
 - Falta uma fonte da marca que as instruções do projeto nomeiam: pare e peça. Não invente.
 - Sem terminal e sem o servidor `vocabulary`, como num agente do Notion: pare. O cadastro roda numa ferramenta de código com o projeto aberto. Não confirme nada.
 - O termo só cabe num contexto: `situationally_allowed` com `when`. Não use `allowed` nem `forbidden`.
+- O termo pertence a quem fala, a um evento ou a um canal: grave também `tags`, reaproveitando a tag que já está. Sem saber o contexto, pergunte.
 - O termo é emoji, combinação ou uso simbólico: grave estado, descrição e exemplo. A combinação junta é um termo. Não é decoração.
 - Evitar, proibido, ruim, desalinhado ou restrito: o estado é `forbidden` e o exemplo ruim fica em `rejected`.
 - `description` explica a palavra. Em `allowed`, `reason` diz por que usamos. Não copie um no outro.
@@ -304,6 +320,8 @@ Casa ficou permitida. Casas ganhou a própria linha, proibida. Moradias ganhou a
 - Casa e caça parecem a mesma palavra sem acento. O cedilha muda a letra. As duas linhas ficam. Caixa e acento que não muda a letra não criam outra linha. Plural, gênero e outra palavra do mesmo assunto criam.
 - Duas linhas do mesmo termo parecem um convite a apagar a mais curta. A escrita não apaga. Sinalize e espere a escolha.
 - Um exemplo citado parece herdar a descrição do termo. Se ele não vem como item do lote, nasce só com o estado daquele vínculo.
+- O `when` parece bastar para o termo de uma pessoa ou de um evento. Sem `tags`, a consulta de outro contexto ainda lê esse termo.
+- Uma tag nova parece inofensiva. `maria` e `maria-silva` viram dois contextos. Reaproveite a que já está.
 - Uma palavra em inglês dentro do texto em português parece termo do vocabulário em inglês. Ela mora no vocabulário desse texto.
 - Gosto, estética isolada ou julgamento genérico parecem fechar o estado. Sem as fontes da marca que as instruções do projeto nomeiam, ele espera. A tensão entre intenção e viabilidade fica em `description` ou `when`.
 - Emoji parece enfeite. No vocabulário ele é termo, com estado, descrição e exemplo.
@@ -313,9 +331,9 @@ Casa ficou permitida. Casas ganhou a própria linha, proibida. Moradias ganhou a
 
 ## Scripts disponíveis
 
-- `node node_modules/vocabulary/dist/cli.js lookup --language <idioma> --term <termo>` lê um termo e devolve se ele existe e a linha guardada.
+- `node node_modules/vocabulary/dist/cli.js lookup --language <idioma> --term <termo>` lê um termo e devolve se ele existe e a linha guardada, com as tags.
 - `node node_modules/vocabulary/dist/cli.js exists --language <idioma> --text <trecho>` devolve só o registro de cada token do trecho para se ele existe.
-- `node node_modules/vocabulary/dist/cli.js terms` grava o lote. `--language` e `--mode` valem para o lote. Cada `--term` abre um termo, com `--state`, `--category`, `--description`, `--reason`, `--when` e `--substitution`. `--examples`, `--rejected`, `--alternatives` e `--related` repetem, um valor por vez.
+- `node node_modules/vocabulary/dist/cli.js terms` grava o lote. `--language` e `--mode` valem para o lote. Cada `--term` abre um termo, com `--state`, `--category`, `--description`, `--reason`, `--when` e `--substitution`. `--examples`, `--rejected`, `--alternatives`, `--related` e `--tags` repetem, um valor por vez.
 - `--glossary`, antes do comando, aponta outro vocabulário.
 - `lookup_term`, `exists_in_text` e `write_terms`, no servidor `vocabulary`, fazem a mesma consulta e a mesma escrita quando não há terminal.
 
