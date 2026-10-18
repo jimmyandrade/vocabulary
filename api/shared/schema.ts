@@ -60,6 +60,8 @@ export type LookupRequest = z.infer<typeof lookupRequest>
 export const existsRequest = classifyTextRequest.extend({ tags: tagListSchema.default([]) })
 export type ExistsRequest = z.infer<typeof existsRequest>
 
+export const caseSensitiveSchema = z.boolean({ error: "case_sensitive is true or false." }).default(false)
+
 const forbiddenRequestObject = z.object({
   language: prose("Unknown language."),
   term: prose("Provide the term."),
@@ -69,6 +71,7 @@ const forbiddenRequestObject = z.object({
   rejected: termList("Provide the rejected examples."),
   alternatives: termList("Provide the alternatives."),
   related: termList("Provide the related terms.").default([]),
+  case_sensitive: caseSensitiveSchema,
 })
 export const forbiddenRequest = guardGeneral(rejectPositiveExamples(forbiddenRequestObject), false)
 export type ForbiddenRequest = z.infer<typeof forbiddenRequest>
@@ -81,6 +84,7 @@ const allowedRequestObject = z.object({
   reason: prose("Provide the reason."),
   examples: termList("Provide the examples."),
   related: termList("Provide the related terms.").default([]),
+  case_sensitive: caseSensitiveSchema,
 })
 export const allowedRequest = refuseCliche(guardGeneral(allowedRequestObject, false))
 export type AllowedRequest = z.infer<typeof allowedRequest>
@@ -93,21 +97,16 @@ const situationalRequestObject = z.object({
   when: prose("Provide when to use it."),
   examples: termList("Provide the examples."),
   related: termList("Provide the related terms.").default([]),
+  case_sensitive: caseSensitiveSchema,
 })
 export const situationalRequest = refuseCliche(situationalRequestObject)
 export type SituationalRequest = z.infer<typeof situationalRequest>
 
-export const caseSensitiveSchema = z.boolean({ error: "case_sensitive is true or false." }).default(false)
-
-const allowedTerm = allowedRequestObject
-  .omit({ language: true })
-  .extend({ state: z.literal("allowed"), case_sensitive: caseSensitiveSchema })
-const forbiddenTerm = forbiddenRequestObject
-  .omit({ language: true })
-  .extend({ state: z.literal("forbidden"), case_sensitive: caseSensitiveSchema })
+const allowedTerm = allowedRequestObject.omit({ language: true }).extend({ state: z.literal("allowed") })
+const forbiddenTerm = forbiddenRequestObject.omit({ language: true }).extend({ state: z.literal("forbidden") })
 const situationalTerm = situationalRequestObject
   .omit({ language: true })
-  .extend({ state: z.literal("situationally_allowed"), tags: tagListSchema.default([]), case_sensitive: caseSensitiveSchema })
+  .extend({ state: z.literal("situationally_allowed"), tags: tagListSchema.default([]) })
 
 const bulkTermObject = z.discriminatedUnion("state", [allowedTerm, forbiddenTerm, situationalTerm], {
   error: "Provide the state.",
@@ -172,6 +171,8 @@ export const classificationSchema = z.object({
   term: z.string().optional(),
   recommended: z.string().optional(),
   always_allowed: z.string().optional(),
+  case_sensitive: z.literal(true).optional(),
+  case_matches: z.boolean().optional(),
 })
 export type Classification = z.infer<typeof classificationSchema>
 

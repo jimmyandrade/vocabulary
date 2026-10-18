@@ -199,7 +199,8 @@ export function registerForbidden(
   const tag = canonicalLanguage(language)
   const path = glossaryFile(directory, tag)
   const entries = load(readFileSync(path, "utf8"))
-  const created = entryFrom(lowercaseTerm(input.term), "forbidden", undefined)
+  const created = entryFrom(input.case_sensitive ? input.term : lowercaseTerm(input.term), "forbidden", undefined)
+  if (input.case_sensitive) created.caseSensitive = true
   if (entries.some((item) => matchKey(item.term) === matchKey(created.term))) {
     throw new InvalidGlossary(`${JSON.stringify(created.term)} is already in the glossary.`)
   }
@@ -222,6 +223,7 @@ export function registerForbidden(
     substitution: input.substitution,
     rejected,
     alternatives,
+    case_sensitive: input.case_sensitive ? true : undefined,
   }
 }
 
@@ -233,7 +235,8 @@ export function registerAllowed(
   const tag = canonicalLanguage(language)
   const path = glossaryFile(directory, tag)
   const entries = load(readFileSync(path, "utf8"))
-  const created = entryFrom(lowercaseTerm(input.term), "allowed", undefined)
+  const created = entryFrom(input.case_sensitive ? input.term : lowercaseTerm(input.term), "allowed", undefined)
+  if (input.case_sensitive) created.caseSensitive = true
   if (entries.some((item) => matchKey(item.term) === matchKey(created.term))) {
     throw new InvalidGlossary(`${JSON.stringify(created.term)} is already in the glossary.`)
   }
@@ -253,6 +256,7 @@ export function registerAllowed(
     description: input.description,
     reason: input.reason,
     examples,
+    case_sensitive: input.case_sensitive ? true : undefined,
   }
 }
 
@@ -264,7 +268,8 @@ export function registerSituational(
   const tag = canonicalLanguage(language)
   const path = glossaryFile(directory, tag)
   const entries = load(readFileSync(path, "utf8"))
-  const created = entryFrom(lowercaseTerm(input.term), "situationally_allowed", undefined)
+  const created = entryFrom(input.case_sensitive ? input.term : lowercaseTerm(input.term), "situationally_allowed", undefined)
+  if (input.case_sensitive) created.caseSensitive = true
   if (entries.some((item) => matchKey(item.term) === matchKey(created.term))) {
     throw new InvalidGlossary(`${JSON.stringify(created.term)} is already in the glossary.`)
   }
@@ -284,6 +289,7 @@ export function registerSituational(
     description: input.description,
     when: input.when,
     examples,
+    case_sensitive: input.case_sensitive ? true : undefined,
   }
 }
 
