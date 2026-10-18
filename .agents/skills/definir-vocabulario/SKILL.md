@@ -77,7 +77,7 @@ Se a pessoa perguntar as variações de gênero, número ou grafia de um termo q
 
 ### Passo 6
 
-Grave o plano inteiro numa escrita só, com a escrita de Scripts disponíveis. Com terminal, rode o comando. Sem terminal, chame a ferramenta do servidor `vocabulary`. Termo que não existia fica em minúsculas. Nome em que a caixa faz parte da grafia, como iPhone, leva `case_sensitive` e guarda a caixa enviada. A linha que já existia conserva a grafia guardada. Se nenhum termo do plano existia, a resposta começa com a quantidade e segue com a lista do que entrou. Depois sugira plural, singular, feminino, masculino e outra grafia quando a palavra tiver. Não grave a sugestão. Pergunte o estado de cada forma. Pontuação e emoji não ganham essa sugestão. Diga também o que foi atualizado e o que já existia sem alteração. Um exemplo que também vem completo no lote permanece com essa linha. Um exemplo citado e ausente do lote nasce no estado desse vínculo, com as tags do termo. Uma falha deixa o vocabulário como estava. Não confirme o cadastro sem essa resposta.
+Grave o plano inteiro numa escrita só, com a escrita de Scripts disponíveis. Com terminal, rode o comando. Sem terminal, chame a ferramenta do servidor `vocabulary`. Termo que não existia fica em minúsculas. Marca com caixa própria, como iPhone, leva `case_sensitive` e guarda a caixa. A linha que já existia conserva a grafia guardada. Se nenhum termo do plano existia, a resposta começa com a quantidade e segue com a lista do que entrou. Depois sugira plural, singular, feminino, masculino e outra grafia quando a palavra tiver. Não grave a sugestão. Pergunte o estado de cada forma. Pontuação e emoji não ganham essa sugestão. Diga também o que foi atualizado e o que já existia sem alteração. Um exemplo que também vem completo no lote permanece com essa linha. Um exemplo citado e ausente do lote nasce no estado desse vínculo, com as tags do termo. Uma falha deixa o vocabulário como estava. Não confirme o cadastro sem essa resposta.
 
 ### Passo 7
 
@@ -271,7 +271,6 @@ Casa ficou permitida. Casas ganhou a própria linha, proibida. Moradias ganhou a
 - Sem modo: `insert`. Corrigir: `update`. Os dois: `upsert`.
 - O termo já está, só muda a caixa ou o acento que não muda a letra: a linha que já está é atualizada, ou fica sem alteração se os campos forem os mesmos.
 - Plural, singular, feminino, masculino ou outra palavra do mesmo assunto: cada forma tem a própria linha e o próprio estado.
-- Nenhum termo do plano existe: grave em minúsculas, diga a quantidade e a lista, e sugira as variações sem gravar.
 - Termo novo e proibido, sem termos relacionados: pergunte antes de gravar. Eles entram em `alternatives`. Se a pessoa não quiser, a lista fica vazia.
 - A pessoa pergunta se um termo faltou e ele não existe: diga isso e sugira o cadastro. `related` só aponta para termo que já está.
 - A pessoa pergunta as variações de um termo que acabou de entrar: diga quais estão e quais não estão. Sugira o cadastro das ausentes e pergunte o estado. Não grave nessa resposta.
@@ -290,7 +289,7 @@ Casa ficou permitida. Casas ganhou a própria linha, proibida. Moradias ganhou a
 
 - A categoria parece seguir o idioma do vocabulário. Ela é uma palavra em inglês em qualquer idioma.
 - Cadastrar parece reescrever o que já está. Com `insert`, a linha que já existe fica.
-- A maiúscula do pedido parece a grafia a guardar. Termo novo fica em minúsculas, salvo com `case_sensitive`. A linha que já existe conserva a grafia guardada.
+- A maiúscula do pedido parece a grafia a guardar. Termo novo fica em minúsculas. A linha que já existe conserva a grafia guardada.
 - Termo proibido parece exigir um substituto inventado. Sem a resposta da pessoa, `alternatives` fica vazio.
 - Uma variação ausente parece já ligada pela palavra vizinha. Ela não existe até ser cadastrada. `related` não a cria.
 - O termo que acabou de entrar parece levar as variações junto. Cada forma só está se a consulta achar a linha dela. A ausente espera o estado.
