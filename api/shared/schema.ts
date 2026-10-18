@@ -97,11 +97,17 @@ const situationalRequestObject = z.object({
 export const situationalRequest = refuseCliche(situationalRequestObject)
 export type SituationalRequest = z.infer<typeof situationalRequest>
 
-const allowedTerm = allowedRequestObject.omit({ language: true }).extend({ state: z.literal("allowed") })
-const forbiddenTerm = forbiddenRequestObject.omit({ language: true }).extend({ state: z.literal("forbidden") })
+export const caseSensitiveSchema = z.boolean({ error: "case_sensitive is true or false." }).default(false)
+
+const allowedTerm = allowedRequestObject
+  .omit({ language: true })
+  .extend({ state: z.literal("allowed"), case_sensitive: caseSensitiveSchema })
+const forbiddenTerm = forbiddenRequestObject
+  .omit({ language: true })
+  .extend({ state: z.literal("forbidden"), case_sensitive: caseSensitiveSchema })
 const situationalTerm = situationalRequestObject
   .omit({ language: true })
-  .extend({ state: z.literal("situationally_allowed"), tags: tagListSchema.default([]) })
+  .extend({ state: z.literal("situationally_allowed"), tags: tagListSchema.default([]), case_sensitive: caseSensitiveSchema })
 
 const bulkTermObject = z.discriminatedUnion("state", [allowedTerm, forbiddenTerm, situationalTerm], {
   error: "Provide the state.",
@@ -187,6 +193,7 @@ export const forbiddenRegistrationSchema = z.object({
   rejected: z.array(z.string()),
   alternatives: z.array(z.string()),
   related: z.array(z.string()).optional(),
+  case_sensitive: z.literal(true).optional(),
 })
 export type ForbiddenRegistration = z.infer<typeof forbiddenRegistrationSchema>
 
@@ -199,6 +206,7 @@ export const allowedRegistrationSchema = z.object({
   reason: z.string(),
   examples: z.array(z.string()),
   related: z.array(z.string()).optional(),
+  case_sensitive: z.literal(true).optional(),
 })
 export type AllowedRegistration = z.infer<typeof allowedRegistrationSchema>
 
@@ -212,6 +220,7 @@ export const situationalRegistrationSchema = z.object({
   examples: z.array(z.string()),
   related: z.array(z.string()).optional(),
   tags: z.array(z.string()).optional(),
+  case_sensitive: z.literal(true).optional(),
 })
 export type SituationalRegistration = z.infer<typeof situationalRegistrationSchema>
 
@@ -269,6 +278,7 @@ export const glossaryRowSchema = z
       tags: z
         .array(z.string({ error: TAG_MESSAGE }).regex(TAG, { error: TAG_MESSAGE }), { error: "The glossary tags are not a list." })
         .optional(),
+      case_sensitive: z.boolean({ error: "A glossary case_sensitive is not true or false." }).optional(),
     },
     { error: "A glossary row is not an object." },
   )
