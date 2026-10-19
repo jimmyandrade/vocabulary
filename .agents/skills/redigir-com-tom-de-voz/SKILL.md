@@ -3,7 +3,7 @@ name: redigir-com-tom-de-voz
 description: Use essa habilidade sempre que for criar, adaptar, lapidar ou validar texto da marca no tom de voz, mesmo sem dizer copy, como slogan, legenda, e-mail, WhatsApp, campanha, CTA, microcopy ou título de evento externo. NÃO use para responder quem conversa com a IA, descrever uma skill, titular tarefa ou oportunidade, cravar a grafia, alterar formato de conteúdo, nem assumir cliente, peça, oportunidade ou histórico.
 metadata:
   author: jimmyandrade
-  version: "0.14.0"
+  version: "0.15.0"
   aliases:
     - escreva-usando-o-tom-de-voz
   related:
@@ -56,6 +56,8 @@ Termo da categoria `cliche` não entra como palavra final. A descrição pede im
 Frase que sugere perda consumada, cobrança agressiva, exclusão, capacitismo, ameaça real, culpa ou sensação incompatível com o tom sai do texto. A alternativa mantém desejo, urgência e conversa natural, sem dizer que a pessoa já perdeu a chance. O motivo dessa rejeição fica na descrição do termo no vocabulário. Sem essa linha, não invente o termo.
 
 Mensagem para uma pessoa não revela contexto interno que ela não precisa saber e que pode deixá-la desconfortável, como a troca frequente de pessoas no papel que ela assume. O motivo neutro entra no lugar, como uma mudança na padronização. A mensagem abre pelo que muda para ela.
+
+O fechamento diz o próximo passo concreto, como a reunião já marcada, ou o canal de dúvidas que as instruções do projeto ou a pessoa indicam. Fechamento genérico que oferece quem escreve, como "qualquer dúvida, me chama", é clichê de IA e não entra. Sem canal indicado, pergunte.
 
 Assunto, prévia, cabeçalho ou chamada inicial de e-mail, quando a pessoa provavelmente vê o texto como banner no celular, fica curto, pessoal, específico e chamativo. Verbo no imperativo pode faltar. O texto gera gatilho de ação ou de curiosidade. Essa curiosidade não diz que a chance já passou. Clickbait vazio fica de fora.
 
