@@ -30,6 +30,21 @@ How these skills relate is in `README.md`, in this folder.
   - [x] The skill is present at that path
   - [x] The description refuses writing or approving brand text, classifying a phrase, and inventing a term
 
+### perfilar-tom-de-voz
+- **Stability**: experimental
+- **Description**: Profile how a person or a channel writes from a real sample and register the patterns in the glossary
+- **Properties**:
+  - Lives at `.agents/skills/perfilar-tom-de-voz/SKILL.md`
+  - Profiles only on an explicit request, for the person or channel the requester names
+  - Reads the sample from the source named in the project instructions and leaves out the messages of the requester and of bots
+  - Extracts only patterns that repeat, and writes a short summary of the tone where the project instructions say
+  - Registers the concrete patterns with `definir-vocabulario` under the tag of the person or channel, preferring small reusable terms to whole phrases
+  - Records where the sample came from, and shows the requester what it derived
+  - Never quotes a message from a private conversation in another context
+- **Test Criteria**:
+  - [x] The skill is present at that path
+  - [x] The description refuses writing text, registering a loose term, and profiling without a request
+
 ### procurar-variacao-de-termo
 - **Stability**: experimental
 - **Description**: Say whether a term or its gender, number, or spelling variations are in the glossary

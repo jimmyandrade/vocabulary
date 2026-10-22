@@ -12,6 +12,7 @@ Solid arrows come from `metadata.related`. Dotted arrows are skills cited in the
 flowchart LR
   subgraph project["jimmyandrade"]
     definir_vocabulario["definir-vocabulario"]
+    perfilar_tom_de_voz["perfilar-tom-de-voz"]
     procurar_variacao_de_termo["procurar-variacao-de-termo"]
     redigir_com_tom_de_voz["redigir-com-tom-de-voz"]
   end
@@ -22,6 +23,9 @@ flowchart LR
   definir_vocabulario --> evoluir_habilidade
   definir_vocabulario --> procurar_variacao_de_termo
   definir_vocabulario --> redigir_com_tom_de_voz
+  perfilar_tom_de_voz --> definir_vocabulario
+  perfilar_tom_de_voz --> evoluir_habilidade
+  perfilar_tom_de_voz --> redigir_com_tom_de_voz
   procurar_variacao_de_termo --> definir_vocabulario
   procurar_variacao_de_termo --> evoluir_habilidade
   redigir_com_tom_de_voz --> definir_vocabulario
